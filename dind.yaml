@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: docker
+spec:
+  initContainers:
+  - name: init-myservice
+    image: alpine/git:latest
+    command: ['sh', '-c','git clone https://github.com/zm99by/dockerimages.git /tmp' ]
+    volumeMounts: 
+    - name: for-git 
+      mountPath: /tmp
+  containers:
+  - name: main
+    image: docker:dind
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: for-git 
+      mountPath: /tmp
+    - name: docker
+      mountPath: /var/lib/docker
+  volumes:
+  - name: docker
+    emptyDir:
+      medium: Memory
+  - name: for-git
+    emptyDir: {}
