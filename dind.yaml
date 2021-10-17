@@ -6,7 +6,8 @@ spec:
   initContainers:
   - name: init-myservice
     image: alpine/git:latest
-    command: ['sh', '-c','git clone https://github.com/zm99by/dockerimages.git /tmp' ]
+    command: ["/bin/sh"]
+    args: ["-c", "git clone https://github.com/zm99by/dockerimages.git /tmp"]
     volumeMounts: 
     - name: for-git 
       mountPath: /tmp
